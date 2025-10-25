@@ -67,6 +67,19 @@ def train_and_save(results_dir="results",
     plt.tight_layout()
     plt.savefig(os.path.join(results_dir, "reward_curve.png"))
     plt.close()
+        
+ train_and_save()
+    # train_and_save 함수 내 마지막 부분 (보상 그래프 저장 직전)
+    success_rates = [sum(rewards_per_episode[:i+1]) / (i+1) for i in range(len(rewards_per_episode))]    
+    plt.figure()
+    plt.plot(success_rates)
+    plt.xlabel("Episode")
+    plt.ylabel("Success Rate")
+    plt.title("Success Rate Over Time")
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig(os.path.join(results_dir, "success_rate.png"))
+    plt.close()
 
     # 성공률 저장
     with open(os.path.join(results_dir, "summary.txt"), "w") as f:
@@ -78,4 +91,5 @@ def train_and_save(results_dir="results",
     return agent, rewards_per_episode
 
 if __name__ == "__main__":
-    train_and_save()
+    
+  
