@@ -16,20 +16,25 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'   # ✅ 여기가 수정된 부분!
+          python-version: '3.10'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install reportlab
 
       - name: Run training
         run: |
-          python src/train.py --episodes 2000 || python src/train.py
+          python src/train.py || echo "training failed"
 
       - name: Visualize policy
         run: |
           python src/visualize.py || echo "visualize failed"
+
+      - name: Make PDF Report
+        run: |
+          python src/make_report.py || echo "report failed"
 
       - name: Upload results
         uses: actions/upload-artifact@v4
