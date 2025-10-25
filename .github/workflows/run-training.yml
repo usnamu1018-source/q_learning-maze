@@ -1,5 +1,4 @@
-# .github/workflows/run-training.yml
-name: Run Q-Learning Training
+name: Run Q-Learning Comparison
 
 on:
   push:
@@ -24,20 +23,24 @@ jobs:
           pip install -r requirements.txt
           pip install reportlab
 
-      - name: Run training
+      - name: Run Baseline (무학습 대조군)
         run: |
-          python src/train.py || echo "training failed"
+          python src/compare_baseline.py
 
-      - name: Visualize policy
+      - name: Run Q-Learning (학습군)
         run: |
-          python src/visualize.py || echo "visualize failed"
+          python src/train.py
 
-      - name: Make PDF Report
+      - name: Visualize Results
         run: |
-          python src/make_report.py || echo "report failed"
+          python src/visualize.py
 
-      - name: Upload results
+      - name: Make PDF Report (한국어 비교 리포트)
+        run: |
+          python src/make_report.py
+
+      - name: Upload all results
         uses: actions/upload-artifact@v4
         with:
-          name: q-learning-results
+          name: q-learning-comparison-results
           path: results
